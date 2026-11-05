@@ -127,9 +127,8 @@ void NVIC_Init(NVIC_InitTypeDef* NVIC_InitStruct)
 
     tmppriority = (uint32_t)NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority << tmppre;
     tmppriority |=  NVIC_InitStruct->NVIC_IRQChannelSubPriority & tmpsub;
-    tmppriority = tmppriority << 0x04;
-        
-    NVIC->IPR[NVIC_InitStruct->NVIC_IRQChannel] = tmppriority;
+    /* CMSIS API supports both CMSIS 5 (IP) and CMSIS 6 (IPR). */
+    NVIC_SetPriority((IRQn_Type)NVIC_InitStruct->NVIC_IRQChannel, tmppriority);
     
     /* Enable the Selected IRQ Channels --------------------------------------*/
     NVIC->ISER[NVIC_InitStruct->NVIC_IRQChannel >> 0x05] =

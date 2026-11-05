@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-心率算法验证：证明 HeartRate-Monitor-STM32 中 get_BMP() 的死代码问题，
+历史心率算法对比（不再代表当前固件；当前回归运行 run_native_tests.py）。
+
+证明早期 HeartRate-Monitor-STM32 中 get_BMP() 的死代码问题，
 并对比多种修复方案在全心率区间的表现，选定最终方案。
 
-把 adc.c 的算法逐行等价翻译成 Python，喂入模拟的 PPG（光电容积脉搏波）信号。
+把早期 adc.c 的算法逐行等价翻译成 Python，喂入模拟的 PPG（光电容积脉搏波）信号。
 
 运行： python verify/bpm_fix_verify.py
 """
@@ -185,6 +187,7 @@ if __name__ == '__main__':
         ('方案E  W=250 每沿计数', get_bpm_new, 250, False),
     ]
 
+    print("历史 Python 方案对比；当前固件请运行 verify/run_native_tests.py\n")
     print("采样周期 10ms，每个心率点模拟 60 秒，取后半段稳态\n")
     header = f"{'方案':<24}" + "".join(f"{b:<7}" for b in cases)
     print(header)

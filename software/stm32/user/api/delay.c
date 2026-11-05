@@ -1,42 +1,33 @@
 #include "delay.h"
 
-u32 ledtime=0;
-u32 beeptime=0;
-u32 keytime=0;
-u32 bmptime=0;
-u32 giftime=0; // 【新增】定义变量
+static volatile uint32_t system_ms;
 
-//系统滴答定时器的中断函数
-//1ms
 void SysTick_Handler(void)
 {
-	ledtime++;
-	beeptime++;
-	keytime++;
-	bmptime++;
-	giftime++; // 【新增】让它动起来
+    ++system_ms;
 }
 
-//系统定时器初始化
+uint32_t Millis(void)
+{
+    /* An aligned 32-bit read is atomic on Cortex-M3. The foreground never
+       writes this ISR-owned counter, so ticks cannot be lost by clearing it. */
+    return system_ms;
+}
+
 void Systick_Init(uint32_t load)
 {
-	if(SysTick_Config(load) == 1)
-	{
-		while(1);
-	}
+    system_ms = 0;
+    if (SysTick_Config(load) != 0) while (1);
+    NVIC_SetPriority(SysTick_IRQn, 0);
 }
 
 void Delay_us(uint32_t time)
 {
-	while(time--) {
-		delay_1us();
-	}
+    while (time--) { delay_1us(); }
 }
 
 void Delay_ms(uint32_t time)
 {
-	uint64_t t = time*1000;
-	while(t--) {
-		delay_1us();
-	}
+    uint32_t start = Millis();
+    while ((uint32_t)(Millis() - start) < time);
 }

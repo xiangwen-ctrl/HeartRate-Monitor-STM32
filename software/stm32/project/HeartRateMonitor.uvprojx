@@ -449,6 +449,16 @@
               <FileType>1</FileType>
               <FilePath>..\user\api\adc.c</FilePath>
             </File>
+            <File>
+              <FileName>pulse_detect.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\user\api\pulse_detect.c</FilePath>
+            </File>
+            <File>
+              <FileName>pulse_buffer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\user\api\pulse_buffer.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

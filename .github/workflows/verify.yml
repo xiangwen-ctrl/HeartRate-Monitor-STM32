@@ -1,0 +1,16 @@
+name: Native C regression tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  native-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile and run the firmware algorithm and buffer tests
+        run: python3 verify/run_native_tests.py
